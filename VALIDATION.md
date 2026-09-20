@@ -1,3 +1,16 @@
+## IPA 已生成（2026-09-20）
+
+已在 GitHub macOS runner 上使用 Xcode 16.4 / iPhoneOS 18.5 SDK 成功编译 ARM64、最低 iOS 16 的应用，并生成未签名 IPA。10 项核心测试通过；下载后核对产物 SHA-256、Mach-O ARM64 可执行文件及离线模型资源。尚未进行 iPhone 真机测试；安装前仍需签名。
+
+构建：https://github.com/azusacat233/naiwa-ios-run/actions/runs/35501855127
+源码提交：72fe91ab89f717a4b497d505c4086c1bf3dfdb4a
+IPA SHA-256：979670860B0335F59CB606398B65ADB5CA289468444FA58BF00968C467AEC9AC
+本机文件：D:/lunwen/奶娃快跑-未签名.ipa
+
+本节更新取代下文早期记录中的“尚未编译 / 尚未生成 IPA”状态。
+
+---
+
 # 验证记录
 日期：2026-09-20。环境：Windows + Node 26.4.0 + Chromium，agent-browser 0.38.1。
 
