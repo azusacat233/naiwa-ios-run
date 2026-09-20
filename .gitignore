@@ -1,0 +1,10 @@
+build/
+*.ipa
+*.p12
+*.mobileprovision
+.DS_Store
+xcuserdata/
+NaiwaRunner/Web/models/models-data.js
+NaiwaRunner/Web/models/*.png
+NaiwaRunner/Web/models/*.bin
+NaiwaRunner/Web/models/three.min.js

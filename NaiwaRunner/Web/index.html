@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#d2efd9"><title>奶娃快跑 · 小小出走计划</title><link rel="stylesheet" href="style.css"><script src="core.js" defer></script><script src="models/three.min.js" defer></script><script src="models/models-data.js" defer></script><script src="models-view.js" defer></script><script src="game.js" defer></script></head>
+<body><main id="app">
+<canvas id="world" aria-label="三跑道游戏，滑动屏幕或使用方向按钮操作"></canvas>
+<header><div class="brand"><span class="brand-icon">✳</span><span>NAIWA<br><small>RUN CLUB</small></span></div><div class="wallet"><span>✦</span> <b id="balance">0</b></div><button id="sound" class="round" aria-label="切换音效">♪</button></header>
+<section id="home" class="home"><div class="intro"><div class="eyebrow">小 小 出 走 计 划 / VOL. 01</div><h1>奶娃<span>快跑</span><i>!</i></h1><p>把今天，跑成一个好天气。</p></div>
+<div class="side"><button data-panel="actors">☺<small>看角色</small></button><button data-panel="maps">☀<small>去旅行</small></button><button data-panel="skins">✿<small>换身衣</small></button><button data-panel="records">⚑<small>小成就</small></button></div>
+<div class="home-bottom"><div class="map-tag"><span id="mapLabel">01 / 薄荷海岸</span><button data-panel="maps">换个风景 ↗</button></div><button id="start" class="primary">出发，去兜风 <span>↗</span></button><p class="hint">左右滑动换道 · 上滑跳跃 · 下滑滑铲</p><div class="footer"><span>随时出发 · 离线畅玩</span><span>BEST <b id="best">0</b> m</span></div></div></section>
+<section id="hud" hidden><button id="pause" class="round" aria-label="暂停">Ⅱ</button><div><b id="distance">0</b><small>METERS / 米</small></div><span class="run-coins">✦ <b id="runCoins">0</b></span><p id="speed">轻快起步</p></section>
+<div id="controls" hidden><button data-action="left" aria-label="向左换道">←</button><button data-action="jump" aria-label="跳跃">↑</button><button data-action="slide" aria-label="滑铲">↓</button><button data-action="right" aria-label="向右换道">→</button></div>
+<dialog id="panel"><div class="panel-head"><span id="panelTag">SPROUT RUN CLUB</span><button id="closePanel" class="round" aria-label="关闭">×</button></div><div id="panelBody"></div></dialog><div id="toast" role="status"></div>
+</main></body></html>

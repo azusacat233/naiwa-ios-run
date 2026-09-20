@@ -1,0 +1,43 @@
+name: Build Naiwa iPhone IPA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'NaiwaRunner/**'
+      - 'NaiwaRunner.xcodeproj/**'
+      - 'tools/**'
+      - 'export-ipa.command'
+      - '.github/workflows/build-ipa.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare offline model resources
+        run: node tools/restore-models.cjs
+      - name: Test game logic
+        run: node --test tests/core.test.cjs
+      - name: Build real iPhoneOS app and package unsigned IPA
+        shell: bash
+        run: |
+          set -o pipefail
+          bash export-ipa.command --unsigned 2>&1 | tee ipa-build.log
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: NaiwaRunner-unsigned-IPA
+          path: build/ipa-export.*/NaiwaRunner-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcode-build-log
+          path: ipa-build.log
+          if-no-files-found: ignore
+          retention-days: 7

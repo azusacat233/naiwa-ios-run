@@ -1,0 +1,27 @@
+[
+  {
+    "sha256": "5557e86ca0c32a8cdf8a3653578a0b4e1ea527c185da05dabeb088773b65038b",
+    "url": "https://naiwa-kuaipao.pages.dev/assets/characters.bin",
+    "name": "characters.bin"
+  },
+  {
+    "sha256": "573d7871d53c5851ec8e5b920d5990dd79770933fe446e4c5069fd004d0d21a6",
+    "url": "https://naiwa-kuaipao.pages.dev/assets/models/runner-1.png",
+    "name": "runner-1.png"
+  },
+  {
+    "sha256": "c57647628657857da3b3ab6fac50c4e85415c4a0ba1e178bbbdb52b6b9aae3be",
+    "url": "https://naiwa-kuaipao.pages.dev/assets/models/bull-1.png",
+    "name": "bull-1.png"
+  },
+  {
+    "sha256": "7fbd1efd2c6aa45522557e9b0037f4955382f57c7f9c6a657dedac69e122c96a",
+    "url": "https://naiwa-kuaipao.pages.dev/assets/models/dog-1.png",
+    "name": "dog-1.png"
+  },
+  {
+    "sha256": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+    "url": "https://naiwa-kuaipao.pages.dev/vendor/three.min.js",
+    "name": "three.min.js"
+  }
+]
