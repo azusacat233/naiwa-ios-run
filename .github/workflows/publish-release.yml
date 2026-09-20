@@ -1,0 +1,50 @@
+name: Publish verified IPA release
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-release.yml']
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: release-v1.0.0-unsigned
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: v1.0.0-unsigned
+      SOURCE_COMMIT: 72fe91ab89f717a4b497d505c4086c1bf3dfdb4a
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source build
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GH_REPO/actions/runs/35501855127" > source-run.json
+          python3 -c 'import json; r=json.load(open("source-run.json")); assert r["conclusion"]=="success"; assert r["head_sha"]=="72fe91ab89f717a4b497d505c4086c1bf3dfdb4a"'
+      - uses: actions/download-artifact@v4
+        with:
+          name: NaiwaRunner-unsigned-IPA
+          run-id: 35501855127
+          github-token: ${{ github.token }}
+          path: downloaded
+      - name: Verify IPA and prepare release assets
+        run: python3 tools/prepare-release.py
+      - name: Upload and publish release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "This release already exists. Refusing to overwrite it."
+            exit 1
+          fi
+          gh release create "$TAG"             "release/NaiwaRunner-v1.0.0-unsigned.ipa#奶娃快跑 IPA（未签名）"             "release/SHA256SUMS.txt#SHA-256 校验值"             --target "$SOURCE_COMMIT"             --title "奶娃快跑 v1.0.0（未签名 IPA）"             --notes-file docs/release-v1.0.0.md             --draft --prerelease
+          gh release view "$TAG" --json assets > uploaded-assets.json
+          python3 -c 'import json; a=json.load(open("uploaded-assets.json"))["assets"]; assert any(x["name"]=="NaiwaRunner-v1.0.0-unsigned.ipa" and x["size"]==14960552 for x in a); assert any(x["name"]=="SHA256SUMS.txt" for x in a)'
+          gh release edit "$TAG" --draft=false
+          gh release view "$TAG" --json url --jq .url
