@@ -1,0 +1,73 @@
+name: Build and publish v2 IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'NaiwaRunner/**'
+      - 'NaiwaRunner.xcodeproj/**'
+      - 'tests/**'
+      - 'tools/**'
+      - 'export-ipa.command'
+      - 'docs/release-v2.0.0.md'
+      - '.github/workflows/release-v2.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-v2.0.0
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: v2.0.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare offline model resources
+        run: node tools/restore-models.cjs
+      - name: Test game logic
+        run: node --test tests/core.test.cjs
+      - name: Build unsigned iPhoneOS IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash export-ipa.command --unsigned 2>&1 | tee ipa-build.log
+          mkdir -p release
+          node tools/build-standalone.cjs release/NaiwaRunner-v2.0.0.html
+          IPA="$(find build -name 'NaiwaRunner-unsigned.ipa' -type f -print -quit)"
+          test -n "$IPA"
+          cp "$IPA" release/NaiwaRunner-v2.0.0-unsigned.ipa
+          python3 tools/validate-v2-ipa.py release/NaiwaRunner-v2.0.0-unsigned.ipa
+          cd release
+          shasum -a 256 NaiwaRunner-v2.0.0-unsigned.ipa NaiwaRunner-v2.0.0.html > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+      - name: Publish GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          ASSETS=(
+            "release/NaiwaRunner-v2.0.0-unsigned.ipa#奶娃快跑 v2 iOS 未签名 IPA"
+            "release/NaiwaRunner-v2.0.0.html#奶娃快跑 v2 单文件 HTML"
+            "release/SHA256SUMS.txt#SHA-256 校验值"
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${ASSETS[@]}" --clobber
+            gh release edit "$TAG" --title "奶娃快跑 v2.0.0" --notes-file docs/release-v2.0.0.md --target "${{ github.sha }}" --latest
+          else
+            gh release create "$TAG" "${ASSETS[@]}" --target "${{ github.sha }}" --title "奶娃快跑 v2.0.0" --notes-file docs/release-v2.0.0.md --latest
+          fi
+          gh release view "$TAG" --json url,assets --jq '{url:.url,assets:[.assets[]|{name,size}]}'
+      - name: Upload Xcode log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-xcode-log
+          path: ipa-build.log
+          if-no-files-found: ignore
+          retention-days: 7

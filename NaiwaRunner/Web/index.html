@@ -1,12 +1,31 @@
-<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#d2efd9"><title>奶娃快跑 · 小小出走计划</title><link rel="stylesheet" href="style.css"><script src="core.js" defer></script><script src="models/three.min.js" defer></script><script src="models/models-data.js" defer></script><script src="models-view.js" defer></script><script src="game.js" defer></script></head>
-<body><main id="app">
-<canvas id="world" aria-label="三跑道游戏，滑动屏幕或使用方向按钮操作"></canvas>
-<header><div class="brand"><span class="brand-icon">✳</span><span>NAIWA<br><small>RUN CLUB</small></span></div><div class="wallet"><span>✦</span> <b id="balance">0</b></div><button id="sound" class="round" aria-label="切换音效">♪</button></header>
-<section id="home" class="home"><div class="intro"><div class="eyebrow">小 小 出 走 计 划 / VOL. 01</div><h1>奶娃<span>快跑</span><i>!</i></h1><p>把今天，跑成一个好天气。</p></div>
-<div class="side"><button data-panel="actors">☺<small>看角色</small></button><button data-panel="maps">☀<small>去旅行</small></button><button data-panel="skins">✿<small>换身衣</small></button><button data-panel="records">⚑<small>小成就</small></button></div>
-<div class="home-bottom"><div class="map-tag"><span id="mapLabel">01 / 薄荷海岸</span><button data-panel="maps">换个风景 ↗</button></div><button id="start" class="primary">出发，去兜风 <span>↗</span></button><p class="hint">左右滑动换道 · 上滑跳跃 · 下滑滑铲</p><div class="footer"><span>随时出发 · 离线畅玩</span><span>BEST <b id="best">0</b> m</span></div></div></section>
-<section id="hud" hidden><button id="pause" class="round" aria-label="暂停">Ⅱ</button><div><b id="distance">0</b><small>METERS / 米</small></div><span class="run-coins">✦ <b id="runCoins">0</b></span><p id="speed">轻快起步</p></section>
-<div id="controls" hidden><button data-action="left" aria-label="向左换道">←</button><button data-action="jump" aria-label="跳跃">↑</button><button data-action="slide" aria-label="滑铲">↓</button><button data-action="right" aria-label="向右换道">→</button></div>
-<dialog id="panel"><div class="panel-head"><span id="panelTag">SPROUT RUN CLUB</span><button id="closePanel" class="round" aria-label="关闭">×</button></div><div id="panelBody"></div></dialog><div id="toast" role="status"></div>
-</main></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#eaf3f2"><title>奶娃快跑 v2</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="boot"><span class="boot-logo">N.</span><h2>奶娃快跑</h2><p id="bootText">场景加载中…</p><div class="boot-line"></div></div>
+<div class="shell">
+<aside class="sidebar"><a class="wordmark" href="#" aria-label="奶娃快跑首页"><span class="brandmark">N<span>↗</span></span><span>奶娃快跑</span></a><div class="season-label"><i></i> 版本 2.0</div>
+<nav id="desktopNav"><button class="nav-item active" data-nav="home" data-icon="home">出发大厅</button><button class="nav-item" data-nav="maps" data-icon="globe">世界地图 <em>10</em></button><button class="nav-item" data-nav="wardrobe" data-icon="shirt">奶娃衣橱</button><button class="nav-item" data-nav="missions" data-icon="flag">每日任务 <i class="notif"></i></button><button class="nav-item" data-nav="powers" data-icon="bolt">道具工坊</button><button class="nav-item" data-nav="records" data-icon="trophy">奔跑记录</button></nav>
+<div class="side-bottom"><div class="explorer"><span class="avatar">N</span><div><strong>自由探索者</strong><small>每一步，都算数。</small></div><span class="online"></span></div><button class="nav-item" data-nav="settings" data-icon="settings">游戏设置</button><div class="version">v2.0 <span>离线可玩 ↗</span></div></div></aside>
+<main class="main">
+<header class="topbar"><div class="breadcrumbs"><span>世界漫游</span><b>/</b><strong id="pageName">出发大厅</strong></div><div class="top-actions"><span class="offline-dot">本机存档</span><button class="pill wallet" data-open="wardrobe"><i data-icon="coin"></i><strong id="wallet">0</strong><span>金币</span></button><button class="icon-button" id="soundButton" aria-label="切换声音"><i data-icon="volume"></i></button><button class="icon-button" data-open="help" aria-label="操作指南"><i data-icon="help"></i></button></div></header>
+<section id="homePage" class="page">
+
+<div class="dashboard">
+<div class="hero" id="hero"><div id="sceneMount"></div><div class="hero-grain"></div>
+<div class="hero-top"><span class="live-badge"><i></i> <b id="mapCountry">CITY</b><span id="mapNumber">01 / 10</span></span><button class="hero-button" id="actorButton"><i data-icon="users"></i> 角色</button></div>
+<div class="hero-title"><h2 id="mapName">晴空车站</h2><p id="mapTag">城市车站</p></div>
+
+<button class="hero-outfit" data-open="wardrobe"><i data-icon="shirt"></i><span id="outfitName">经典奶娃</span><span>↗</span></button>
+<div class="hero-bottom"><button class="map-switch" data-open="maps"><i data-icon="globe"></i><span><small>当前地图</small><b>选择地图</b></span></button><button class="start-button" id="startButton"><i data-icon="play"></i><span>开始跑酷<small>空格键 / 点击</small></span><b>↗</b></button></div>
+<div id="gameHUD" hidden><div class="run-top"><button id="pauseButton" class="pause-button" aria-label="暂停游戏"><i data-icon="pause"></i></button><div class="distance"><small id="scoreMultiplier">距离 / 米</small><b id="distanceValue">0</b><span id="scoreValue">积分 0</span></div><span class="game-coins"><i data-icon="coin"></i><b id="runCoins">0</b></span></div><div id="powerHUD"></div><div id="chaseHUD" hidden><i data-icon="alert"></i><span>追兵靠近！保持 7 秒不碰撞</span></div><div class="run-bottom"><span class="speed-readout"><b id="speedValue">28</b> m/s<small id="zoneLabel">晴空车站</small></span><button id="boardButton"><i data-icon="board"></i><span>使用滑板<small>剩余 <b id="boardCount">3</b> 块 · B / 双击</small></span></button></div><div class="touch-controls"><button data-action="left" aria-label="左换道">←</button><button data-action="jump" aria-label="跳跃">↑</button><button data-action="slide" aria-label="滑铲">↓</button><button data-action="right" aria-label="右换道">→</button></div></div></div>
+<aside class="right-column"><div class="challenge-card"><div class="section-label"><i data-icon="flag"></i> 今日里程</div><p id="challengeText">累计奔跑 1,000 米</p><div class="progress"><i id="challengeFill"></i></div><div class="challenge-meta"><b id="challengeProgress">0 / 1,000 m</b><span>+100 <i data-icon="coin"></i></span></div><button class="text-link" data-open="missions">任务 <span>↗</span></button></div>
+<div class="best-card"><span class="trophy-medal"><i data-icon="trophy"></i></span><p>最远距离</p><h3><span id="bestValue">0</span><small>m</small></h3><button data-open="records" aria-label="查看奔跑记录">↗</button></div>
+<div class="tip-card"><i data-icon="bulb"></i><div><b>操作提示</b><p>利用斜坡登上列车顶部。</p></div></div></aside></div>
+<div class="below-hero"><div class="controls-hint"><span><kbd>←</kbd><kbd>→</kbd> 换道</span><span><kbd>↑</kbd> 跳跃</span><span><kbd>↓</kbd> 滑铲</span><span><kbd>B</kbd> 滑板</span><span class="swipe-hint"><i data-icon="hand"></i> 手机滑动操作</span></div><span class="local-note"><i data-icon="shield"></i> 无需登录 · 自动保存</span></div>
+<div class="section-heading"><div><span class="eyebrow">道具</span><h2>跑酷装备</h2></div><button class="text-link" data-open="powers">查看全部 <span>↗</span></button></div><div id="powerCards" class="power-cards"></div>
+<footer class="page-footer"><span>奶娃快跑 v2</span><span>本机存档</span></footer>
+</section>
+<section id="contentPage" class="page subpage" hidden><div class="page-heading"><div><p id="contentEyebrow" class="eyebrow"></p><h1 id="contentTitle" tabindex="-1"></h1><p id="contentDesc" class="lead"></p></div><button class="outline-button" data-nav="home"><i data-icon="arrow"></i> 返回游戏</button></div><div id="contentBody"></div></section>
+<nav class="mobile-nav"><button data-nav="home" class="active"><i data-icon="home"></i>出发</button><button data-nav="maps"><i data-icon="globe"></i>地图</button><button data-nav="wardrobe"><i data-icon="shirt"></i>衣橱</button><button data-nav="missions"><i data-icon="flag"></i>任务</button><button data-nav="powers"><i data-icon="bolt"></i>道具</button></nav>
+</main></div>
+<dialog id="dialog"><div class="dialog-top"><span>奶娃快跑</span><button id="closeDialog" class="icon-button" aria-label="关闭"><i data-icon="close"></i></button></div><div id="dialogBody"></div></dialog><div id="toast" role="status"></div>
+<script src="models/three.min.js"></script><script src="models/models-data.js"></script><script src="core.js"></script><script src="scene.js"></script><script src="app.js"></script>
+</body></html>

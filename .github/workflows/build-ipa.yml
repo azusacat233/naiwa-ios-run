@@ -1,14 +1,6 @@
 name: Build Naiwa iPhone IPA
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'NaiwaRunner/**'
-      - 'NaiwaRunner.xcodeproj/**'
-      - 'tools/**'
-      - 'export-ipa.command'
-      - '.github/workflows/build-ipa.yml'
 permissions:
   contents: read
 jobs:
